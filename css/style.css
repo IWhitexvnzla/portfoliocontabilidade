@@ -1,0 +1,459 @@
+/* ==========================================================================
+   DARK MODE HERO SECTION - PREMIUM LANDING PAGE
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/*   1. CONFIGURAÇÕES GLOBAIS E VARIÁVEIS DE DESIGN
+/* -------------------------------------------------------------------------- */
+:root {
+    /* Paleta de Cores */
+    --cor-texto-principal: #FFFFFF;
+    --cor-texto-secundario: #d1d5db; /* Cinza claro */
+    --gradiente-acao: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%); /* Azul Neon -> Roxo */
+    --cor-borda-fantasma: #3B82F6;
+    --cor-fundo-overlay: rgba(0, 0, 0, 0.7);
+    --cor-fundo-navbar: rgba(17, 24, 39, 0.5); /* Fundo escuro semi-transparente */
+    --cor-fundo-glass: rgba(10, 30, 60, 0.4);
+    --cor-borda-glass: rgba(255, 255, 255, 0.1);
+    --cor-icone-hover: #3B82F6; /* Azul Vibrante */
+
+    /* Tipografia */
+    --fonte-principal: 'Poppins', sans-serif;
+
+    /* Transições */
+    --transicao-suave: all 0.3s ease-in-out;
+}
+
+/* -------------------------------------------------------------------------- */
+/*   2. RESET E ESTILO BASE
+/* -------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fonte-principal);
+    background: linear-gradient(to bottom right, #2b3e4a, #16222a);
+    color: var(--cor-texto-principal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    /* Comportamento de rolagem suave para links internos (âncoras) */
+    scroll-behavior: smooth;
+}
+
+/* Oculte o overlay antigo da floresta */
+.hero-overlay {
+    display: none;
+}
+
+/* ==========================================================================
+   ANIMAÇÃO DE FUNDO (BOLHAS FLUTUANTES)
+   ========================================================================== */
+.bg-bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Fica atrás de todo o conteúdo */
+    overflow: hidden;
+}
+
+.bg-bubbles li {
+    position: absolute;
+    list-style: none;
+    display: block;
+    width: 40px;
+    height: 40px;
+    /* Cor e borda das bolhas (branco quase transparente) */
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    bottom: -150px;
+    /* Configuração da animação infinita */
+    animation: floatUp 25s infinite linear;
+}
+
+/* Tamanhos, posições e velocidades diferentes para cada bolha */
+.bg-bubbles li:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; }
+.bg-bubbles li:nth-child(2) { left: 20%; width: 30px; height: 30px; animation-delay: 2s; animation-duration: 17s; }
+.bg-bubbles li:nth-child(3) { left: 25%; width: 50px; height: 50px; animation-delay: 4s; }
+.bg-bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 22s; }
+.bg-bubbles li:nth-child(5) { left: 70%; width: 35px; height: 35px; animation-delay: 0s; }
+.bg-bubbles li:nth-child(6) { left: 80%; width: 120px; height: 120px; animation-delay: 3s; }
+.bg-bubbles li:nth-child(7) { left: 32%; width: 160px; height: 160px; animation-delay: 7s; }
+.bg-bubbles li:nth-child(8) { left: 55%; width: 45px; height: 45px; animation-delay: 15s; animation-duration: 40s; }
+.bg-bubbles li:nth-child(9) { left: 25%; width: 25px; height: 25px; animation-delay: 2s; animation-duration: 40s; }
+.bg-bubbles li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 11s; }
+
+/* A mágica do movimento */
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-1000px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/*   3. HERO SECTION E BACKGROUND
+/* -------------------------------------------------------------------------- */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+}
+
+.navbar, .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/*   4. NAVBAR (MENU NO TOPO)
+/* -------------------------------------------------------------------------- */
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px 0;
+    width: 100%;
+    background-color: var(--cor-fundo-navbar);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--cor-borda-glass);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    text-decoration: none;
+}
+
+.logo-highlight {
+    color: var(--cor-borda-fantasma);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-link {
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    font-size: 0.9em;
+    font-weight: 400;
+    transition: var(--transicao-suave);
+}
+
+.nav-link:hover {
+    color: var(--cor-texto-principal);
+}
+
+/* -------------------------------------------------------------------------- */
+/*   5. CONTEÚDO CENTRAL (TIPOGRAFIA)
+/* -------------------------------------------------------------------------- */
+.hero-content {
+    max-width: 900px;
+}
+
+.hero-headline {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.hero-subheadline {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--cor-texto-secundario);
+    max-width: 700px;
+    margin: 0 auto 32px auto;
+    line-height: 1.6;
+}
+
+/* -------------------------------------------------------------------------- */
+/*   6. BOTÕES DE AÇÃO (PILL BUTTONS)
+/* -------------------------------------------------------------------------- */
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.btn {
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1em;
+    transition: var(--transicao-suave);
+    display: inline-block;
+}
+
+.btn-primary {
+    background: var(--gradiente-acao);
+    color: var(--cor-texto-principal);
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.1);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--cor-texto-principal);
+    border: 2px solid var(--cor-borda-fantasma);
+}
+
+.btn-secondary:hover {
+    background-color: var(--cor-borda-fantasma);
+    color: var(--cor-texto-principal);
+}
+
+/* -------------------------------------------------------------------------- */
+/*   7. SEÇÃO SOBRE MIM (GLASSMORPHISM) E SEÇÕES DE CONTEÚDO
+/* -------------------------------------------------------------------------- */
+.about-section {
+    padding: 80px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    /* Define padding no topo para compensar a navbar fixa ao rolar (ancoragem) */
+    scroll-margin-top: 80px;
+}
+
+.about-card {
+    max-width: 900px; /* Aumentado para acomodar os cards lado a lado se necessário */
+    width: 100%;
+    background: var(--cor-fundo-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--cor-borda-glass);
+    border-radius: 24px;
+    padding: 48px;
+    /* Remover text-align: center para permitir alinhamento esquerdo na bio e grid nas skills */
+}
+
+.about-info {
+    width: 100%;
+}
+
+.about-name {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--cor-texto-principal);
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.about-bio {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 48px;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* NOVO: Layout em Grade para as Habilidades */
+.skills-grid {
+    display: grid;
+    /* Cria colunas responsivas que se ajustam automaticamente */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+.skill-card {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    transition: var(--transicao-suave);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skill-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.skill-icons {
+    display: flex;
+    gap: 8px; /* Para quando houver múltiplos ícones, como no card Web */
+}
+
+.skill-header h3 {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin: 0;
+}
+
+.skill-desc {
+    font-size: 0.95em;
+    color: var(--cor-texto-secundario);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Transição do SVG independente dentro do card */
+.skill-card svg {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* O pequeno 'pulo' do ícone ao passar o mouse no card inteiro */
+.skill-card:hover svg {
+  transform: scale(1.1) translateY(-2px);
+}
+
+/* Cores de Hover Específicas por Card (Borda e Fundo sutil) */
+.skill-card.java:hover {
+  background-color: rgba(237, 139, 0, 0.08);
+  border-color: rgba(237, 139, 0, 0.3);
+}
+
+.skill-card.web:hover {
+  background-color: rgba(59, 130, 246, 0.08); /* Azul genérico para o grupo */
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.skill-card.excel:hover {
+  background-color: rgba(29, 111, 66, 0.08);
+  border-color: rgba(29, 111, 66, 0.3);
+}
+
+.skill-card.english:hover {
+  background-color: rgba(189, 61, 68, 0.08);
+  border-color: rgba(189, 61, 68, 0.3);
+}
+
+.skill-card.spanish:hover {
+  background-color: rgba(255, 196, 0, 0.08);
+  border-color: rgba(255, 196, 0, 0.3);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*   8. ÍCONES SOCIAIS E CONTATO (RODAPÉ/FIM DA PÁGINA)
+/* -------------------------------------------------------------------------- */
+.social-icons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    /* Define padding no topo para compensar a navbar fixa ao rolar (ancoragem) */
+    scroll-margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.05); /* Separador visual sutil */
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  color: #d1d5db;
+  background-color: transparent;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-icon svg {
+  fill: currentColor;
+  transition: transform 0.3s ease;
+}
+
+.social-icon.github:hover {
+    color: var(--cor-icone-hover);
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8));
+    transform: translateY(-3px);
+}
+
+.social-icon.discord:hover {
+  color: #5865F2;
+  background-color: rgba(88, 101, 242, 0.15);
+}
+
+.social-icon.discord:hover svg {
+  transform: scale(1.15);
+}
+
+.social-icon.email:hover {
+  color: #ea4335;
+  background-color: rgba(234, 67, 53, 0.15);
+}
+
+.social-icon.email:hover svg {
+  transform: scale(1.15);
+}
+
+/* -------------------------------------------------------------------------- */
+/*   9. RESPONSIVIDADE
+/* -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .hero-headline {
+        font-size: 2.5rem;
+    }
+
+    .hero-subheadline {
+        font-size: 1rem;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .about-card {
+        padding: 32px;
+    }
+}
