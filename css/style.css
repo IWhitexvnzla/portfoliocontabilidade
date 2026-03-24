@@ -16,6 +16,7 @@
     --cor-fundo-glass: rgba(10, 30, 60, 0.4);
     --cor-borda-glass: rgba(255, 255, 255, 0.1);
     --cor-icone-hover: #3B82F6; /* Azul Vibrante */
+    --cor-card-projeto: rgba(255, 255, 255, 0.03); /* Fundo dos cards de projeto */
 
     /* Tipografia */
     --fonte-principal: 'Poppins', sans-serif;
@@ -346,27 +347,27 @@ body {
 
 /* Cores de Hover Específicas por Card (Borda e Fundo sutil) */
 .skill-card.java:hover {
-  background-color: rgba(237, 139, 0, 0.08);
+  background-color: rgba(237, 139, 0, 0.1);
   border-color: rgba(237, 139, 0, 0.3);
 }
 
 .skill-card.web:hover {
-  background-color: rgba(59, 130, 246, 0.08); /* Azul genérico para o grupo */
+  background-color: rgba(59, 130, 246, 0.1); /* Azul genérico para o grupo */
   border-color: rgba(59, 130, 246, 0.3);
 }
 
 .skill-card.excel:hover {
-  background-color: rgba(29, 111, 66, 0.08);
+  background-color: rgba(29, 111, 66, 0.1);
   border-color: rgba(29, 111, 66, 0.3);
 }
 
 .skill-card.english:hover {
-  background-color: rgba(189, 61, 68, 0.08);
+  background-color: rgba(189, 61, 68, 0.1);
   border-color: rgba(189, 61, 68, 0.3);
 }
 
 .skill-card.spanish:hover {
-  background-color: rgba(255, 196, 0, 0.08);
+  background-color: rgba(255, 196, 0, 0.1);
   border-color: rgba(255, 196, 0, 0.3);
 }
 
@@ -426,6 +427,161 @@ body {
 .social-icon.email:hover svg {
   transform: scale(1.15);
 }
+
+/* ==========================================================================
+   NOVA SEÇÃO: PROJETOS
+   ========================================================================== */
+.projects-section {
+    padding: 80px 24px;
+    display: flex;
+    justify-content: center;
+    scroll-margin-top: 80px; /* Compensar navbar ao rolar */
+}
+
+.projects-container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.section-title {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--cor-texto-principal);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+}
+
+/* Estrutura do Card de Projeto */
+.project-card {
+    background-color: var(--cor-card-projeto);
+    border: 1px solid var(--cor-borda-glass);
+    border-radius: 16px;
+    overflow: hidden; /* Garante que a imagem não vaze das bordas arredondadas */
+    transition: var(--transicao-suave);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Efeito Hover do Card (O pulo inteiro) */
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Imagem de Capa do Projeto */
+.project-image {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid var(--cor-borda-glass);
+}
+
+/* Conteúdo (Textos e Tags) */
+.project-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Ocupa o restante do card */
+}
+
+.project-content h3 {
+    font-size: 1.5em;
+    color: var(--cor-texto-principal);
+    margin-bottom: 12px;
+}
+
+.project-content p {
+    font-size: 0.95em;
+    color: var(--cor-texto-secundario);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    flex-grow: 1; /* Empurra os botões para o fundo */
+}
+
+/* Fileira de Tags de Tecnologia */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.project-tags .tag {
+    font-size: 0.75em;
+    font-weight: 600;
+    padding: 4px 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: var(--cor-texto-secundario);
+}
+
+/* Botão ou Link de Ação do Projeto */
+.btn-project {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: rgba(59, 130, 246, 0.1); /* Fundo azul suave */
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: var(--transicao-suave);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    align-self: flex-start; /* Evita que o botão ocupe toda a largura */
+}
+
+.btn-project:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Destaque Visual para o Card da Calculadora */
+/* -------------------------------------------------------------------------- */
+.project-card.highlight {
+    border: 1px solid rgba(59, 130, 246, 0.5); /* Borda azul vibrante */
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.1); /* Brilho inicial suave */
+}
+
+.project-card.highlight:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 30px rgba(59, 130, 246, 0.3); /* Brilho intenso no hover */
+}
+
+.project-card.highlight .btn-project {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
+.project-card.highlight .btn-project:hover {
+    background-color: #2563eb;
+}
+
+/* Card Estático "Mais em Breve" */
+.project-card.static-card {
+    background-color: transparent;
+    border: 2px dashed var(--cor-borda-glass); /* Borda tracejada */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.project-card.static-card:hover {
+    transform: none; /* Não pula no hover */
+    box-shadow: none;
+    border-color: var(--cor-texto-secundario);
+}
+
 
 /* -------------------------------------------------------------------------- */
 /*   9. RESPONSIVIDADE
