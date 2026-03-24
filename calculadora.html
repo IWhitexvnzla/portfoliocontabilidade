@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadoras Fiscais - Manaus</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        /* CSS Integrado para facilitar a criação da nova página sem mexer no estilo base */
+        :root {
+            --bg-color: #111827; /* Fundo mais escuro */
+            --card-bg: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --accent-color: #3b82f6;
+            --border-color: #374151;
+            --font-main: 'Poppins', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .header-app {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-app h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .btn-back {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-back:hover {
+            color: var(--accent-color);
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .app-container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .sidebar-menu { width: 250px; }
+        }
+
+        .menu-category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin: 1rem 0 0.5rem 0;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .menu-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-family: var(--font-main);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-btn:hover {
+            background-color: rgba(255,255,255,0.05);
+            border-color: var(--text-secondary);
+        }
+
+        .menu-btn.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .calculator-area {
+            flex-grow: 1;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+
+        .calc-view {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .calc-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .calc-view h2 { margin-bottom: 0.5rem; }
+        .calc-view p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+
+        .input-group { margin-bottom: 1.5rem; }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .btn-calc:hover { background-color: #2563eb; }
+
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result-box.show { display: block; }
+        .result-box.error {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+
+        .result-title { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;}
+        .result-value { font-size: 1.5rem; font-weight: 800; margin-top: 5px; color: var(--text-primary); }
+        .result-detail { font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px; white-space: pre-line; }
+
+    </style>
+</head>
+<body>
+
+    <header class="header-app">
+        <h1>Calculadoras Úteis</h1>
+        <a href="index.html" class="btn-back">
+            <i class="ph ph-arrow-left"></i> Voltar ao Portfólio
+        </a>
+    </header>
+
+    <div class="app-container">
+
+        <aside class="sidebar-menu">
+            <div class="menu-category">Dia a Dia</div>
+            <button class="menu-btn active" data-target="view-perc"><i class="ph ph-percent"></i> Porcentagem</button>
+            <button class="menu-btn" data-target="view-div"><i class="ph ph-users"></i> Divisão de Conta</button>
+            <button class="menu-btn" data-target="view-imc"><i class="ph ph-barbell"></i> Calc IMC</button>
+
+            <div class="menu-category">Fiscais & Contábeis</div>
+            <button class="menu-btn" data-target="view-ipva"><i class="ph ph-car"></i> IPVA AM (2026)</button>
+            <button class="menu-btn" data-target="view-iss"><i class="ph ph-buildings"></i> ISS Manaus</button>
+            <button class="menu-btn" data-target="view-icms"><i class="ph ph-shopping-cart"></i> ICMS Interno AM</button>
+            <button class="menu-btn" data-target="view-salario"><i class="ph ph-money"></i> Salário CLT</button>
+        </aside>
+
+        <main class="calculator-area">
+
+            <!-- VIEW: PORCENTAGEM -->
+            <div id="view-perc" class="calc-view active">
+                <h2>Calculadora de Porcentagem</h2>
+                <p>Descubra o valor exato de uma porcentagem sobre um montante.</p>
+                <div class="input-group">
+                    <label>Qual o valor total? (R$)</label>
+                    <input type="number" id="perc-valor" placeholder="Ex: 1500">
+                </div>
+                <div class="input-group">
+                    <label>Qual a porcentagem? (%)</label>
+                    <input type="number" id="perc-taxa" placeholder="Ex: 15">
+                </div>
+                <button class="btn-calc" onclick="calcPerc()">Calcular</button>
+                <div id="res-perc" class="result-box">
+                    <div class="result-title">Resultado</div>
+                    <div class="result-value" id="res-perc-val">-</div>
+                </div>
+            </div>
+
+            <!-- VIEW: DIVISÃO DE CONTA -->
+            <div id="view-div" class="calc-view">
+                <h2>Divisão de Conta (com gorjeta)</h2>
+                <p>Divida a conta do bar ou restaurante facilmente.</p>
+                <div class="input-group">
+                    <label>Valor da Conta (R$)</label>
+                    <input type="number" id="div-valor" placeholder="Ex: 200">
+                </div>
+                <div class="input-group">
+                    <label>Gorjeta (%)</label>
+                    <input type="number" id="div-gorjeta" value="10">
+                </div>
+                <div class="input-group">
+                    <label>Número de pessoas</label>
+                    <input type="number" id="div-pessoas" value="2">
+                </div>
+                <button class="btn-calc" onclick="calcDiv()">Dividir</button>
+                <div id="res-div" class="result-box">
+                    <div class="result-title">Valor por Pessoa</div>
+                    <div class="result-value" id="res-div-val">-</div>
+                    <div class="result-detail" id="res-div-det"></div>
+                </div>
+            </div>
+
+            <!-- VIEW: IMC -->
+            <div id="view-imc" class="calc-view">
+                <h2>Índice de Massa Corporal (IMC)</h2>
+                <p>Calcule seu IMC baseado no peso e altura.</p>
+                <div class="input-group">
+                    <label>Peso (Kg)</label>
+                    <input type="number" id="imc-peso" placeholder="Ex: 75">
+                </div>
+                <div class="input-group">
+                    <label>Altura (metros)</label>
+                    <input type="number" id="imc-altura" step="0.01" placeholder="Ex: 1.75">
+                </div>
+                <button class="btn-calc" onclick="calcImc()">Calcular IMC</button>
+                <div id="res-imc" class="result-box">
+                    <div class="result-title">Seu IMC</div>
+                    <div class="result-value" id="res-imc-val">-</div>
+                    <div class="result-detail" id="res-imc-det"></div>
+                </div>
+            </div>
+
+            <!-- VIEW: IPVA AM -->
+            <div id="view-ipva" class="calc-view">
+                <h2>IPVA 2026 (Amazonas)</h2>
+                <p>Cálculo com redução de 50% nas alíquotas aprovada pelo Governo do AM.</p>
+                <div class="input-group">
+                    <label>Valor FIPE do Veículo (R$)</label>
+                    <input type="number" id="ipva-valor" placeholder="Ex: 60000">
+                </div>
+                <div class="input-group">
+                    <label>Categoria do Veículo</label>
+                    <select id="ipva-tipo">
+                        <option value="2">Carro de Passeio (Acima de 1.000cc) - Alíquota 2%</option>
+                        <option value="1.5">Carro Popular (Até 1.000cc) - Alíquota 1,5%</option>
+                        <option value="1.5">Motocicletas - Alíquota 1,5%</option>
+                        <option value="1.5">Veículo Elétrico/Híbrido - Alíquota 1,5%</option>
+                    </select>
+                </div>
+                <button class="btn-calc" onclick="calcIpva()">Calcular Imposto</button>
+                <div id="res-ipva" class="result-box">
+                    <div class="result-title">Valor do IPVA Devido</div>
+                    <div class="result-value" id="res-ipva-val">-</div>
+                </div>
+            </div>
+
+            <!-- VIEW: ISS MANAUS -->
+            <div id="view-iss" class="calc-view">
+                <h2>ISS (Prefeitura de Manaus)</h2>
+                <p>Cálculo de retenção de Imposto Sobre Serviço na capital.</p>
+                <div class="input-group">
+                    <label>Valor Total do Serviço (R$)</label>
+                    <input type="number" id="iss-valor" placeholder="Ex: 10000">
+                </div>
+                <div class="input-group">
+                    <label>Atividade (Alíquota)</label>
+                    <select id="iss-tipo">
+                        <option value="0.02">Informática, Software e Tecnologia (2%)</option>
+                        <option value="0.02">Serviços de Saúde e Médicos (2%)</option>
+                        <option value="0.05">Construção Civil e Engenharia (5%)</option>
+                        <option value="0.05">Limpeza, Segurança e Conservação (5%)</option>
+                        <option value="0.05">Regra Geral / Outros Serviços (5%)</option>
+                    </select>
+                </div>
+                <button class="btn-calc" onclick="calcIss()">Calcular Retenção</button>
+                <div id="res-iss" class="result-box">
+                    <div class="result-title">Valor do ISS Retido</div>
+                    <div class="result-value" id="res-iss-val">-</div>
+                </div>
+            </div>
+
+            <!-- VIEW: ICMS AM -->
+            <div id="view-icms" class="calc-view">
+                <h2>ICMS Interno (Amazonas)</h2>
+                <p>Cálculo simplificado baseado na alíquota modal (padrão) do estado do AM (20%).</p>
+                <div class="input-group">
+                    <label>Valor do Produto/Operação (R$)</label>
+                    <input type="number" id="icms-valor" placeholder="Ex: 500">
+                </div>
+                <button class="btn-calc" onclick="calcIcms()">Calcular ICMS</button>
+                <div id="res-icms" class="result-box">
+                    <div class="result-title">Valor do ICMS (20%)</div>
+                    <div class="result-value" id="res-icms-val">-</div>
+                </div>
+            </div>
+
+            <!-- VIEW: SALARIO CLT -->
+            <div id="view-salario" class="calc-view">
+                <h2>Salário Líquido CLT (Est. 2026)</h2>
+                <p>Simulação com descontos progressivos de INSS e IRPF.</p>
+                <div class="input-group">
+                    <label>Salário Bruto Registrado (R$)</label>
+                    <input type="number" id="sal-valor" placeholder="Ex: 4500">
+                </div>
+                <button class="btn-calc" onclick="calcSalario()">Calcular Salário Líquido</button>
+                <div id="res-sal" class="result-box">
+                    <div class="result-title">Salário Líquido Estimado</div>
+                    <div class="result-value" id="res-sal-val" style="color: #10b981;">-</div>
+                    <div class="result-detail" id="res-sal-det"></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Logica de navegacao das abas
+        const btns = document.querySelectorAll('.menu-btn');
+        const views = document.querySelectorAll('.calc-view');
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active'));
+                views.forEach(v => v.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.target).classList.add('active');
+            });
+        });
+
+        // Funções utilitárias
+        const formatMoney = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const showError = (boxId) => {
+            const box = document.getElementById(boxId);
+            box.classList.add('show', 'error');
+            box.querySelector('.result-title').innerText = 'Erro';
+            box.querySelector('.result-value').innerText = 'Valores Inválidos';
+            const detail = box.querySelector('.result-detail');
+            if(detail) detail.innerText = '';
+        }
+        const showResult = (boxId, title, value, detailStr = '') => {
+            const box = document.getElementById(boxId);
+            box.classList.remove('error');
+            box.classList.add('show');
+            box.querySelector('.result-title').innerText = title;
+            box.querySelector('.result-value').innerText = formatMoney(value);
+            const detail = box.querySelector('.result-detail');
+            if(detail) detail.innerText = detailStr;
+        }
+
+        // 1. Porcentagem
+        function calcPerc() {
+            const val = parseFloat(document.getElementById('perc-valor').value);
+            const tax = parseFloat(document.getElementById('perc-taxa').value);
+            if(isNaN(val) || isNaN(tax)) return showError('res-perc');
+            showResult('res-perc', `${tax}% de ${formatMoney(val)}`, val * (tax/100));
+        }
+
+        // 2. Divisão
+        function calcDiv() {
+            const val = parseFloat(document.getElementById('div-valor').value);
+            const gorj = parseFloat(document.getElementById('div-gorjeta').value);
+            const pes = parseInt(document.getElementById('div-pessoas').value);
+            if(isNaN(val) || isNaN(gorj) || isNaN(pes) || pes <= 0) return showError('res-div');
+
+            const total = val + (val * (gorj/100));
+            showResult('res-div', 'Valor por Pessoa', total / pes, `Valor total com gorjeta: ${formatMoney(total)}`);
+        }
+
+        // 3. IMC
+        function calcImc() {
+            const p = parseFloat(document.getElementById('imc-peso').value);
+            const a = parseFloat(document.getElementById('imc-altura').value);
+            if(isNaN(p) || isNaN(a) || a <= 0) return showError('res-imc');
+
+            const imc = p / (a * a);
+            let clas = '';
+            if(imc < 18.5) clas = 'Abaixo do peso';
+            else if(imc < 24.9) clas = 'Peso normal';
+            else if(imc < 29.9) clas = 'Sobrepeso';
+            else clas = 'Obesidade';
+
+            const box = document.getElementById('res-imc');
+            box.classList.remove('error');
+            box.classList.add('show');
+            box.querySelector('.result-title').innerText = 'Seu IMC';
+            box.querySelector('.result-value').innerText = imc.toFixed(1);
+            box.querySelector('.result-detail').innerText = `Classificação: ${clas}`;
+        }
+
+        // 4. IPVA
+        function calcIpva() {
+            const val = parseFloat(document.getElementById('ipva-valor').value);
+            const tax = parseFloat(document.getElementById('ipva-tipo').value);
+            if(isNaN(val) || val <= 0) return showError('res-ipva');
+            showResult('res-ipva', `Valor do IPVA (${tax}%)`, val * (tax/100));
+        }
+
+        // 5. ISS
+        function calcIss() {
+            const val = parseFloat(document.getElementById('iss-valor').value);
+            const tax = parseFloat(document.getElementById('iss-tipo').value);
+            if(isNaN(val) || val <= 0) return showError('res-iss');
+            showResult('res-iss', `ISS Retido (${tax*100}%)`, val * tax);
+        }
+
+        // 6. ICMS
+        function calcIcms() {
+            const val = parseFloat(document.getElementById('icms-valor').value);
+            if(isNaN(val) || val <= 0) return showError('res-icms');
+            showResult('res-icms', 'Valor do ICMS (20%)', val * 0.20);
+        }
+
+        // 7. Salario
+        function calcSalario() {
+            const bruto = parseFloat(document.getElementById('sal-valor').value);
+            if(isNaN(bruto) || bruto <= 0) return showError('res-sal');
+
+            // INSS Simplificado (aprox 2024/2026)
+            let inss = 0;
+            if(bruto <= 1412) inss = bruto * 0.075;
+            else if(bruto <= 2666.68) inss = (1412 * 0.075) + ((bruto - 1412) * 0.09);
+            else if(bruto <= 4000.03) inss = (1412 * 0.075) + ((2666.68 - 1412) * 0.09) + ((bruto - 2666.68) * 0.12);
+            else if(bruto <= 7786.02) inss = (1412 * 0.075) + ((2666.68 - 1412) * 0.09) + ((4000.03 - 2666.68) * 0.12) + ((bruto - 4000.03) * 0.14);
+            else inss = 908.85;
+
+            // IRPF Simplificado
+            const baseIrpf = bruto - inss;
+            let irpf = 0;
+            if(baseIrpf > 2259.20 && baseIrpf <= 2826.65) irpf = (baseIrpf * 0.075) - 169.44;
+            else if(baseIrpf > 2826.65 && baseIrpf <= 3751.05) irpf = (baseIrpf * 0.15) - 381.44;
+            else if(baseIrpf > 3751.05 && baseIrpf <= 4664.68) irpf = (baseIrpf * 0.225) - 662.77;
+            else if(baseIrpf > 4664.68) irpf = (baseIrpf * 0.275) - 896.00;
+
+            if(irpf < 0) irpf = 0;
+            const liq = bruto - inss - irpf;
+
+            showResult('res-sal', 'Salário Líquido', liq, `Desconto INSS: -${formatMoney(inss)}\nDesconto IRPF: -${formatMoney(irpf)}`);
+            document.getElementById('res-sal-val').style.color = '#10b981'; // Força cor verde no resultado
+        }
+    </script>
+</body>
+</html>
